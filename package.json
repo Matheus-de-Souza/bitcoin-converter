@@ -2,14 +2,10 @@
   "name": "bitcoin-converter",
   "version": "1.0.0",
   "description": "A CLI to convert bitcoin to any other currency",
-  "main": "index.js",
   "scripts": {
     "build:clear": "rimraf ./bin",
     "build": "npm run build:clear && \"node_modules/.bin/babel\" --out-dir bin src",
     "build:watch": "npm run build -- --watch",
-    "build:umd": "node_modules/.bin/webpack --output-filename spotify-wrapper.umd.js",
-    "build:umd:min": "node_modules/.bin/webpack -p --output-filename spotify-wrapper.umd.min.js",
-    "build:all": "npm run build && npm run build:umd && npm run build:umd:min",
     "lint": "node_modules/.bin/eslint src/**/*.js",
     "prepush": "npm run lint && npm run test:coverage",
     "test": "cross-env NODE_ENV=test nyc node_modules/.bin/mocha tests/**/*.spec.js --require babel-register",
@@ -20,8 +16,12 @@
   },
   "preferGlobal": true,
   "bin": {
-    "btc-converter": "bin/main.js"
+    "bitcoin-converter": "bin/main.js"
   },
+  "main": "bin/main.js",
+  "files": [
+    "bin/"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Matheus-de-Souza/bitcoin-converter.git"
