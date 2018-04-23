@@ -31,6 +31,12 @@ describe('ConvertBTC', () => {
     "time": "2018-04-20 15:51:54",
     "price": 169651
 	};
+	
+	const responseMock4 = {
+    "success": true,
+    "time": "2018-04-20 15:51:54",
+    "price": 16965.10
+	};
 
 	beforeEach(() => {
 		consoleStub = sinon.stub(console, 'log');
@@ -39,6 +45,7 @@ describe('ConvertBTC', () => {
 	afterEach(() => {
 		consoleStub.restore();
 	});
+
 
 	it.skip('should return USD as currency default and 1 as amount default', () => {
 		expect(convertBTC()).to.be.equal('1 BTC to USD = 2000.00');
@@ -58,7 +65,7 @@ describe('ConvertBTC', () => {
 			setTimeout(() => {
 				expect(consoleStub).to.have.been.calledWith('1 BTC to USD = 16965.1')
 				done();
-			}, 100)
+			}, 300)
 	});
 
 	it('should use currency USD and 10 as amount', (done) => {
@@ -72,7 +79,7 @@ describe('ConvertBTC', () => {
 			setTimeout(() => {
 				expect(consoleStub).to.have.been.calledWith('10 BTC to USD = 169651')
 				done();
-			}, 10)
+			}, 300)
 	});
 	
 	it('should use currency BRL and 100 as amount', (done) => {
@@ -86,6 +93,34 @@ describe('ConvertBTC', () => {
 			setTimeout(() => {
 				expect(consoleStub).to.have.been.calledWith('100 BTC to BRL = 169651')
 				done();
-			}, 100)
+			}, 300)
+	});
+	
+	it('should use currency BRL and 1 as amount default', (done) => {
+		const request = nock('https://apiv2.bitcoinaverage.com')
+			.get('/convert/global')
+			.query({ from: 'BTC', to: 'BRL', amount: 1})
+			.reply(200, responseMock4);
+
+			convertBTC('BRL');
+
+			setTimeout(() => {
+				expect(consoleStub).to.have.been.calledWith('1 BTC to BRL = 16965.1')
+				done();
+			}, 300)
+	});
+	
+	it('should message user when api reply with error', (done) => {
+		const request = nock('https://apiv2.bitcoinaverage.com')
+			.get('/convert/global')
+			.query({ from: 'BTC', to: 'BRL', amount: 1})
+			.replyWithError('Error');
+
+			convertBTC('BRL');
+
+			setTimeout(() => {
+				expect(consoleStub).to.have.been.calledWith('Something went wrong in the API. Try it again in a few minutes.');
+				done();
+			}, 300)
 	});
 });
