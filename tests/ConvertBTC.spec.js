@@ -1,3 +1,5 @@
+
+const chalk = require('chalk');
 const chai = require('chai');
 const expect = chai.expect;
 
@@ -63,7 +65,7 @@ describe('ConvertBTC', () => {
 			convertBTC();
 
 			setTimeout(() => {
-				expect(consoleStub).to.have.been.calledWith('1 BTC to USD = 16965.1')
+				expect(consoleStub).to.have.been.calledWith(`${chalk.red(1)} BTC to ${chalk.cyan('USD')} = ${chalk.yellow(16965.1)}`)
 				done();
 			}, 300)
 	});
@@ -77,7 +79,7 @@ describe('ConvertBTC', () => {
 			convertBTC('USD', 10);
 
 			setTimeout(() => {
-				expect(consoleStub).to.have.been.calledWith('10 BTC to USD = 169651')
+				expect(consoleStub).to.have.been.calledWith(`${chalk.red(10)} BTC to ${chalk.cyan('USD')} = ${chalk.yellow(169651)}`)
 				done();
 			}, 300)
 	});
@@ -91,7 +93,7 @@ describe('ConvertBTC', () => {
 			convertBTC('BRL', 100);
 
 			setTimeout(() => {
-				expect(consoleStub).to.have.been.calledWith('100 BTC to BRL = 169651')
+				expect(consoleStub).to.have.been.calledWith(`${chalk.red(100)} BTC to ${chalk.cyan('BRL')} = ${chalk.yellow(169651)}`)
 				done();
 			}, 300)
 	});
@@ -105,7 +107,7 @@ describe('ConvertBTC', () => {
 			convertBTC('BRL');
 
 			setTimeout(() => {
-				expect(consoleStub).to.have.been.calledWith('1 BTC to BRL = 16965.1')
+				expect(consoleStub).to.have.been.calledWith(`${chalk.red(1)} BTC to ${chalk.cyan('BRL')} = ${chalk.yellow(16965.1)}`)
 				done();
 			}, 300)
 	});
@@ -119,7 +121,7 @@ describe('ConvertBTC', () => {
 			convertBTC('BRL');
 
 			setTimeout(() => {
-				expect(consoleStub).to.have.been.calledWith('Something went wrong in the API. Try it again in a few minutes.');
+				expect(consoleStub).to.have.been.calledWith(chalk.red('Something went wrong in the API. Try it again in a few minutes.'));
 				done();
 			}, 300)
 	});
